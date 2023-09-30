@@ -1,0 +1,74 @@
+name: CI
+permissions:
+  contents: write
+  
+on:
+  pull_request:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  linting:
+    name: Linting (clippy)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+
+      - name: cargo clippy
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+
+  deploy:
+    name: deploy
+    needs: [linting]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          [
+            aarch64-unknown-linux-gnu,
+            armv7-unknown-linux-gnueabihf,
+            x86_64-unknown-linux-gnu,
+            x86_64-unknown-linux-musl,
+          ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+          target: ${{ matrix.target }}
+
+      - name: Build target
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          args: --release --target ${{ matrix.target }}
+
+      - name: Package
+        shell: bash
+        run: |
+          cd target/${{ matrix.target }}/release          
+          tar czvf ../../../esmart_mqtt-${{ matrix.target }}.tar.gz esmart_mqtt
+          cd -
+      - name: Publish
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "esmart_mqtt*"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
