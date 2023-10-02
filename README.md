@@ -55,7 +55,7 @@ You should get output which resembles this:
 <map>
     <string name="prefs_connected_devices">[{&quot;id&quot;:&quot;xxxxxxxxxxxxxx&quot;,&quot;isEnable&quot;:true,&quot;name&quot;:&quot;xxxxxxxxxxxxxxxxxxxx&quot;}]</string>
     <string name="prefs_secure_hash">[this is your PASSWORD]</string>
-    <string name="prefs_jid">[this is your JID, without the `@myesmart.net` suffic]</string>
+    <string name="prefs_jid">[this is your JID, without the `@myesmart.net` suffix]</string>
     <string name="prefs_selected_device">[this is the DEVICE_ID. It can be used to generate the XMPP_ROOM, by adding the suffix `@conference.myesmart.net`]</string>
 </map>
 ```
