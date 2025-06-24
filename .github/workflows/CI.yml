@@ -42,7 +42,20 @@ jobs:
             x86_64-unknown-linux-gnu,
             x86_64-unknown-linux-musl,
           ]
+    env:
+      PATH: /usr/bin:/bin:/home/runner/.cargo/bin
+      RUST_BACKTRACE: 1
+
     steps:
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y libclang1 build-essential cmake golang
+
+      - name: Install bindgen
+        uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: --force --locked bindgen-cli
+     
       - name: Checkout
         uses: actions/checkout@v1
       - name: Install rust
