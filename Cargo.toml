@@ -6,17 +6,16 @@ edition = "2021"
 
 [dependencies]
 chrono = "^0.4"
-# temporary, until https://gitlab.com/xmpp-rs/xmpp-rs/-/merge_requests/218 gets sorted out
-tokio-xmpp = { git = "https://gitlab.com/ngerakines/xmpp-rs.git", branch = "main", default-features = false, features = ["tls-rust"] }
-tokio = { version = "^1.25", features = ["net", "rt", "rt-multi-thread", "macros", "io-util", "io-std"] }
+tokio-xmpp = { git = "https://gitlab.com/xmpp-rs/xmpp-rs.git", version = "^4.0" }
+tokio = { version = "^1.45", features = ["net", "rt", "rt-multi-thread", "macros", "io-util", "io-std"] }
 tokio-stream = "^0.1"
-xmpp-parsers = "^0.20"
-rumqttc = "^0.22.0"
-env_logger = "^0.10"
+xmpp-parsers = { git = "https://gitlab.com/xmpp-rs/xmpp-rs.git", version = "^0.21" }
+rumqttc = "^0.24"
+env_logger = "^0.11"
 serde = { version = "^1.0", features = ["derive"] }
 serde_json = "^1.0"
 log = "^0.4"
-clap = { version = "^4.4", features = ["derive", "env"] }
+clap = { version = "^4.5", features = ["derive", "env"] }
 
 [profile.release]
 opt-level = "z" # optimize for size

@@ -1,5 +1,5 @@
 use clap::Parser;
-use xmpp_parsers::{BareJid, Jid};
+use xmpp_parsers::jid::{BareJid, Jid};
 
 /// A fictional versioning CLI
 #[derive(Debug, Parser)] // requires `derive` feature
